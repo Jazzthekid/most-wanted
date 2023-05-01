@@ -31,23 +31,30 @@ function searchPeopleDataSet(people) {
         ['id', 'name', 'traits']
     );
 
-    let results = [];
-    switch (searchTypeChoice) {
-        case 'id':
-            results = searchById(people);
-            break;
-        case 'name':
-            results = searchByName(people);
-            break;
-        case 'traits':
-            results = searchByTraits(people);
-            break;
-        default:
-            return searchPeopleDataSet(people);
-    }
+    if (searchTypeChoice) {
+        let results = [];
+        switch (searchTypeChoice) {
+            case 'id':
+                results = searchById(people);
+                break;
+            case 'name':
+                results = searchByName(people);
+                break;
+            case 'traits':
+                results = searchByTraits(people);
+                break;
+            default:
+                return searchPeopleDataSet(people);
+        }
 
-    return results;
+        return results;
+    } else {
+        alert('No valid search type choice entered. Please try again.');
+        return searchPeopleDataSet(people);
+    }
 }
+
+
 
 function searchById(people) {
     const idToSearchForString = prompt('Please enter the id of the person you are searching for.');
@@ -64,14 +71,30 @@ function searchByName(people) {
 }
 
 function searchByTraits(people) {
-    const traitToSearchFor = prompt('Please enter the trait you would like to search by. Acceptable choices are:\n-gender\n-dob\n-height\n-weight\n-eyeColor\n-occupation');
-    const traitChoiceResults = people.filter(person => (person.gender))
-   
+    let traitToSearchFor = validatedPrompt('Please enter the trait you would like to search by.', ['gender','dob','height','weight','eyeColor','occupation']);
+    switch (traitToSearchFor) {
+        case "gender":
+            // put in the gender search function here
+            findGender(people);
+            break;
     
-
-
+        default:
+            break;
+    }
 }
     
+// create the gender search function here, use filter
+function findGender(people){
+    let userInput = validatedPrompt ('Would you like to search by male or female?', ['male','female']);
+    let results = people.filter(function (el) {
+        if (el.gender.includes(userInput)) {
+            return true;
+        }
+    });
+  
+ return results;
+ } 
+
 
 function mainMenu(person, people) {
 
