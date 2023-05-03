@@ -12,17 +12,18 @@ function displayWelcome() {
 function runSearchAndMenu(people) {
     const searchResults = searchPeopleDataSet(people);
 
-    if (searchResults.length > 1) {
+    if (!searchResults) {
+        alert('No one was found in the search.');
+    }
+    else if (searchResults.length > 1) {
         displayPeople('Search Results', searchResults);
     }
     else if (searchResults.length === 1) {
         const person = searchResults[0];
         mainMenu(person, people);
     }
-    else {
-        alert('No one was found in the search.');
-    }
 }
+ 
 
 function searchPeopleDataSet(people) {
 
@@ -75,8 +76,20 @@ function searchByTraits(people) {
     switch (traitToSearchFor) {
         case "gender":
             // put in the gender search function here
-            findGender(people);
+        let genderSearch = findGender(people);
+        return genderSearch
+        
+           break;
+        case "dob": 
+        let dobSearch = findDob(people);
+        return dobSearch
             break;
+        case "height":
+            let heightSearch = findHeight(people);
+            return heightSearch
+            break; 
+        
+
     
         default:
             break;
@@ -87,14 +100,35 @@ function searchByTraits(people) {
 function findGender(people){
     let userInput = validatedPrompt ('Would you like to search by male or female?', ['male','female']);
     let results = people.filter(function (el) {
-        if (el.gender.includes(userInput)) {
+        if (el.gender === (userInput)) {
             return true;
         }
     });
   
  return results;
- } 
+ }
+//  
+function findDob(people){
+    let userInput = prompt('What date of birth would you like to search by?');
+    let dobToSearchFor = parseInt(userInput)
+    let results = people.filter(function (el){
+        if (el.dob === dobToSearchFor){
+            return true;
+        }
+    });
+return results;
+}
 
+function findHeight(people){
+    let userInput = prompt('What height would you like to search for?')
+    let heightToSeaarchForInt = parseInt(userInput)
+    let results = people.filter(function (el){
+        if (el.height === heightToSeaarchForInt) {
+            return true;
+        }
+    });
+    return results
+}
 
 function mainMenu(person, people) {
 
@@ -105,18 +139,15 @@ function mainMenu(person, people) {
 
     switch (mainMenuUserActionChoice) {
         case "info":
-            //! TODO
-            // displayPersonInfo(person);
+            displayPersonInfo(person);
             break;
         case "family":
-            //! TODO
-            // let personFamily = findPersonFamily(person, people);
-            // displayPeople('Family', personFamily);
+            let personFamily = findPersonFamily(person, people);
+            displayPeople('Family', personFamily);
             break;
         case "descendants":
-            //! TODO
-            // let personDescendants = findPersonDescendants(person, people);
-            // displayPeople('Descendants', personDescendants);
+          let personDescendants = findPersonDescendants(person, people);
+            displayPeople('Descendants', personDescendants);
             break;
         case "quit":
             return;
