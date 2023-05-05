@@ -75,28 +75,35 @@ function searchByTraits(people) {
     let traitToSearchFor = validatedPrompt('Please enter the trait you would like to search by.', ['gender','dob','height','weight','eyeColor','occupation']);
     switch (traitToSearchFor) {
         case "gender":
-            // put in the gender search function here
         let genderSearch = findGender(people);
         return genderSearch
         
-           break;
         case "dob": 
         let dobSearch = findDob(people);
         return dobSearch
-            break;
+       
         case "height":
             let heightSearch = findHeight(people);
             return heightSearch
-            break; 
+          
+        case "weight":
+            let weightSearch = findWeight(people);
+            return weightSearch
         
+        case "eyecolor":
+            let eyeColor = findEyeColor(people);
+            return eyeColor
 
-    
+        case "occupation":
+            let occupationSearch = findOccupation(people);
+            return occupationSearch
+        
         default:
             break;
     }
 }
     
-// create the gender search function here, use filter
+
 function findGender(people){
     let userInput = validatedPrompt ('Would you like to search by male or female?', ['male','female']);
     let results = people.filter(function (el) {
@@ -107,12 +114,11 @@ function findGender(people){
   
  return results;
  }
-//  
+
 function findDob(people){
-    let userInput = prompt('What date of birth would you like to search by?');
-    let dobToSearchFor = parseInt(userInput)
+    let userInput = prompt('What date of birth would you like to search by?')
     let results = people.filter(function (el){
-        if (el.dob === dobToSearchFor){
+        if (el.dob === userInput){
             return true;
         }
     });
@@ -126,6 +132,38 @@ function findHeight(people){
         if (el.height === heightToSeaarchForInt) {
             return true;
         }
+    });
+    return results
+}
+
+function findWeight(people){
+    let userInput = prompt('What weight would you like to search for?')
+    let weightToSearchForInt = parseInt(userInput)
+    let results = people.filter(function (el){
+        if (el.weight === weightToSearchForInt){
+            return true;
+        }
+    });
+    return results
+}
+
+function findEyeColor(people){
+    let userInput = prompt('What eye color would you like to search by')
+    let results = people.filter(function (el){
+        if (el.eyeColor === userInput){
+            return true;
+        }
+    });
+    return results
+}
+
+function findOccupation(people){
+    let userInput = prompt('What occupation would you like to search by')
+    let results = people.filter(function(el){
+        if (el.occupation === userInput){
+            return true;
+        }
+
     });
     return results
 }
@@ -156,6 +194,10 @@ function mainMenu(person, people) {
     }
 
     return mainMenu(person, people);
+}
+
+function displayPersonInfo(person){
+    
 }
 
 function displayPeople(displayTitle, peopleToDisplay) {
