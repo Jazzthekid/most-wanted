@@ -197,9 +197,74 @@ function mainMenu(person, people) {
 }
 
 function displayPersonInfo(person){
+    let personInfo = `ID: ${person.id}\n` +
+    `First Name: ${person.firstName}\n` +
+    `Last Name: ${person.lastName}\n` +
+    `Gender: ${person.gender}\n` +
+    `Date of Birth: ${person.dob}\n` +
+    `Height: ${person.height}\n` +
+    `Weight: ${person.weight}\n` +
+    `Eye Color: ${person.eyeColor}\n` +
+    `Occupation: ${person.occupation}\n` +
+    `Parents: ${person.parents.join(", ") || "Unknown"}\n` +
+    `Current Spouse: ${person.currentSpouse || "None"}`;
     
-}
+    alert(personInfo);
 
+}
+function findPersonFamily(person, people) {
+    const familyMembers = [];
+  
+
+    if (person.currentSpouse) {
+      const spouse = people.find(p => p.id === person.currentSpouse);
+      if (spouse) {
+        familyMembers.push({ name: `${spouse.firstName} ${spouse.lastName}`, relation: "Spouse" });
+      }
+    }
+  
+
+    for (const parentId of person.parents) {
+      const parent = people.find(p => p.id === parentId);
+      if (parent) {
+        familyMembers.push({ name: `${parent.firstName} ${parent.lastName}`, relation: "Parent" });
+      }
+    }
+  
+
+    const siblings = people.filter(p => p.parents.some(parentId => parentId === person.id));
+    for (const sibling of siblings) {
+      familyMembers.push({ name: `${sibling.firstName} ${sibling.lastName}`, relation: "Sibling" });
+    }
+  
+    return familyMembers;
+  };
+
+ function findPersonDescendants(person, people) {
+    const descendants = [];
+  
+    const children = people.filter(p => p.parents.includes(person.id));
+    for (const child of children) {
+      descendants.push({ name: `${child.firstName} ${child.lastName}` });
+      descendants.push(...findPersonDescendants(child, people));
+    }
+  
+    return descendants;
+  };
+
+  function findPersonDescendants(person, people) {
+    const descendants = [];
+  
+    const children = people.filter(p => p.parents.includes(person.id));
+    for (const child of children) {
+      descendants.push({ name: `${child.firstName} ${child.lastName}` });
+      descendants.push(...findPersonDescendants(child, people));
+    }
+  
+    return descendants;
+  };
+  
+  
 function displayPeople(displayTitle, peopleToDisplay) {
     const formatedPeopleDisplayText = peopleToDisplay.map(person => `${person.firstName} ${person.lastName}`).join('\n');
     alert(`${displayTitle}\n\n${formatedPeopleDisplayText}`);
