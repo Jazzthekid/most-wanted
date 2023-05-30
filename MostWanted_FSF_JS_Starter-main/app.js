@@ -217,17 +217,17 @@ function findPersonFamily(person, people) {
   
 
     if (person.currentSpouse) {
-      const spouse = people.find(p => p.id === person.currentSpouse);
+      const spouse = people.filter(p => p.id === person.currentSpouse);
       if (spouse) {
-        familyMembers.push({ name: `${spouse.firstName} ${spouse.lastName}`, relation: "Spouse" });
+        familyMembers.push({ Name: `${spouse[0].firstName} ${spouse[0].lastName}`, relation: "Spouse" });
       }
     }
   
 
     for (const parentId of person.parents) {
-      const parent = people.find(p => p.id === parentId);
+      const parent = people.filter(p => p.id === parentId);
       if (parent) {
-        familyMembers.push({ name: `${parent.firstName} ${parent.lastName}`, relation: "Parent" });
+        familyMembers.push({ name: `${parent[0].firstName} ${parent[0].lastName}`, relation: "Parent" });
       }
     }
   
@@ -244,7 +244,7 @@ function findPersonFamily(person, people) {
     const descendants = [];
   
     const children = people.filter(p => p.parents.includes(person.id));
-    for (const child of children) {
+    for (const child of children) console.log(child); {
       descendants.push({ name: `${child.firstName} ${child.lastName}` });
       descendants.push(...findPersonDescendants(child, people));
     }
